@@ -1,5 +1,74 @@
 # 202130118 송태경
 
+# 2025-11-19 강의
+## 테일윈드 CSS
+### 테일윈드 CSS사용자 정의 디자인을 구축하기 위한 저수준 유틸리티 클래스를 제공하는 유틸리티 중심 CSS 프레임워크입니다.
+## Tailwind CSS 설치:
+> pnpm add -D tailwindcss @tailwindcss/postcss
+<br> 
+## 파일 에 PostCSS 플러그인을 추가합니다 <br>
+> postcss.config.mjs.<br>
+export default {<br>
+  plugins: {<br>
+    '@tailwindcss/postcss': {},<br>
+     },<br>
+}
+<br>
+## 글로벌 CSS 파일에 Tailwind를 가져옵니다.
+> @import 'tailwindcss';
+<br>
+
+- 루트 레이아웃에 CSS 파일을 가져옵니다.<br>
+ > import './globals.css'
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <html lang="en">
+      <body>{children}</body>
+    </html>
+  )
+}
+<br>
+## 이제 애플리케이션에서 Tailwind의 유틸리티 클래스를 사용할 수 있습니다.
+> export default function Page() {
+  return (
+    <br>main className="flex min-h-screen flex-col <br>items-center justify-between p-24">
+      <br> h1 className="text-4xl font-bold">Welcome to Next.<br>js!</h1>
+    <br> /main>
+ <br> )
+<br>}
+
+## CSS 모듈
+### CSS 모듈은 고유한 클래스 이름을 생성하여 CSS의 로컬 범위를 지정합니다. 이를 통해 이름 충돌 걱정 없이 여러 파일에서 동일한 클래스를 사용할 수 있습니다.
+
+### CSS 모듈을 사용하려면 확장자가 있는 새 파일을 만들고<br> 디렉토리 .module.css내의 모든 구성 요소로 가져오세요
+
+## 글로벌 CSS
+
+### 글로벌 CSS를 사용하면 애플리케이션 전체에 스타일을 적용할 수 있습니다.
+
+#### 파일을 만들고 app/global.css루트 레이아웃으로 가져와서 애플리케이션의 모든 경로 에 스타일을 적용합니다.
+
+ > 전역 스타일은 디렉터리 내의 모든 레이아웃, 페이지 또는 컴포넌트로 가져올 수 있습니다 <br>app. 하지만 Next.js는 Suspense와 통합하기 위해 React의 내장 스타일시트 지원을 사용하기 때문에,<br> 현재 경로 간 이동 시 충돌을 일으킬 수 있는 스타일시트가 제거되지 않습니다.<br> Tailwind의 기본 스타일처럼 진정한 전역 CSS에는 전역 스타일을, 컴포넌트 스타일에는 Tailwind CSS를 , <br>그리고 필요에 따라 사용자 지정 범위 CSS에는<br> CSS Modules를 사용하는 것이 좋습니다.
+ 
+ 
+ ## 외부 스타일시트
+- 외부 패키지에서 게시된 스타일시트는 공동 배치된 구성 요소를 포함하여 디렉토리의 어느 곳으로나 가져올 수 있습니다
+> import 'bootstrap/dist/css/bootstrap.css'
+ <br>export default function RootLayout({
+  <br>children,
+<br>}: {
+  <br>children: React.ReactNode
+<br>}) {
+  <br>return (
+    <br> html lang="en">
+      <br> body className="container">{children}</body>
+    <br></html>
+  )
+}
 # 2025-10-29 강의
 
 # 2025-10-22 강의
