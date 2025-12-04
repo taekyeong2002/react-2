@@ -1,5 +1,21 @@
 # 202130118 송태경
+# 2025-11-26 강의
+## WebP 파일 특징
+### 파일 크기가 작아 로딩 속도 개선
+### 무손실/손실 압축, 투명도(Alpha), 애니메이션 지원
+### 저장 공간 절약 + 전송 속도 증가
+### 고품질 이미지를 효율적으로 표현
 
+## 핵심 성능 최적화 기법
+### 이미지 최적화 (Image Optimization)
+### Next.js의  컴포넌트는 웹 성능 측정 지표(Core Web Vitals) 개선을 위한 핵심 요소입니다.
+
+## 주요 기능: 
+### 크기 및 형식 최적화: 사용자 디바이스에 적합한 크기의 이미지를 자동으로 생성 및 제공하며, 압축률이 우수한 WebP 형식 등으로 변환하여 파일 크기를 최소화합니다.
+### CLS(Cumulative Layout Shift) 방지: 이미지의 width와 height를 예약하여 로딩 중 레이아웃이 밀리는 현상을 원천적으로 방지합니다.
+###  Lazy Loading: 뷰포트 내에 들어오기 직전까지 이미지 로드를 지연시켜 초기 페이지 로드 속도를 향상시킵니다. 
+### 사용 권장 방식: 이미지 파일을 import 하는 방식은 빌드 시점에 크기를 알 수 있어 width/height 지정 없이도 자동 최적화가 적용되는 권장 방식입니다.
+### public 폴더 사용 시에는 반드시 크기를 명시해야 합니다.
 # 2025-11-19 강의
 ## 테일윈드 CSS
 ### 테일윈드 CSS사용자 정의 디자인을 구축하기 위한 저수준 유틸리티 클래스를 제공하는 유틸리티 중심 CSS 프레임워크입니다.
@@ -69,9 +85,80 @@ export default function RootLayout({
     <br></html>
   )
 }
-# 2025-10-29 강의
+# 2025-11-12 강의
+## 스트리밍 (Streaming)
 
+### 개념 요약
+### 스트리밍은 페이지 HTML을 한 번에 모두 렌더링하지 않고, 작은 조각 단위로 잘라 순차적으로 전송하는 방식입니다.
+### 초기 화면을 더 빨리 띄워서 사용자에게 콘텐츠를 빠르게 보여 줄 수 있음.
+## 전제 조건
+### cacheComponents_config 옵션이 활성화되어 있다고 가정.
+### Next.js 15 Canary 버전부터 본격 지원.
+### latest는 안정(stable) 버전, canary는 최신 개발(dev) 버전.
+## 특징
+### 서버 컴포넌트에서 async/await을 사용하면 Next.js는 해당 부분을 동적 렌더링(Server Rendering) 대상으로 판단함.
+### 요청이 들어올 때 서버에서 데이터를 가져와 그 결과를 기준으로 렌더링을 수행.
+### 데이터 응답이 느리면 전체 화면이 늦게 나올 수 있으므로, 이럴 때 스트리밍을 사용하면 부분적으로 먼저 보여 줄 수 있어 유리함.
+
+## 스켈레톤 vs 스피너
+
+## 스켈레톤 (Skeleton)
+### 최종 콘텐츠의 레이아웃이나 구조를 회색 블록 등으로 먼저 보여주는 방식.
+### 스피너 (Spinner)
+### 단순히 “로딩 중”임을 알려주는 회전 아이콘 형태의 표시.
+### 게시글 목록, 카드, 썸네일처럼 레이아웃이 중요한 화면에서는 스켈레톤이 사용자 경험 측면에서 더 좋을 때가 많음.
+### 데이터 Fetch 패턴
+
+## 순차적 Fetch (Sequential Fetch)
+### 컴포넌트 트리 상에서 상위 → 하위 순서로 데이터를 가져올 때 발생.
+### 예: Playlists를 가져오려면 먼저 Artist의 artistID가 필요해서, Artist 데이터를 전부 받은 뒤에야 Playlists fetch를 시작할 수 있는 경우.
+### 이런 식으로 요청들 사이에 의존성이 존재함.
+### 병렬 Fetch (Parallel Fetch)
+### 하나의 경로 안에서 여러 데이터 요청을 동시에 진행하는 패턴.
+### 기본적으로 레이아웃(Layout)과 페이지(Page)는 병렬로 렌더링됨.
+### 한 컴포넌트 안에서 여러 await를 순서대로 쓰면 직렬 실행이 될 수 있으므로, 병렬 처리를 위해 Promise.all을 활용할 수 있음.
+# 2025-11-05 강의
+## 대림 테크페어 준비
+
+# 2025-10-29 강의
+## Context Provider (컨텍스트 제공자) <br>
+ ### Props 없이도 전역 상태(theme, 언어 등)를 트리 전체에 공유할 수 있다.<br>
+### Provider를 Server Component에서 감싸면, 하위 Client Component들이 동일한 Context를 사용할 수 있다.
+
+## CSS 적용 (Attribute Selector) <br>
+### html[data-theme='light'] 형식으로 테마를 구분한다.<br>
+### 클래스보다 충돌이 적고 전역 테마 관리에 적합하다.<br>
+
+## useEffect Hook 설명
+### HTML 문서 전체에 theme를 적용하는 전형적인 패턴이다.<br>
+### typeof window !== "undefined" 조건을 넣어 SSR 환경에서도 안전하게 실행되도록 한다.<br>
+## Provider 구성 시 주의<br>
+### ThemeProvider는 <html> 대신 {children}만 감싸야 한다.<br>
+### Provider는 트리에서 한 번만 사용하는 것이 좋다 → 불필요한 렌더링 방지.<br>
+### 이렇게 하면 Server Component의 정적 부분을 최적화하기 쉬워진다.<br>
+## 환경 변수 노출 방지<br>
+### JS 모듈은 server와 client가 공유될 수 있으므로 주의해야 한다.<br>
+### 서버 전용 코드(process.env)는 client에서 접근하지 않도록 분리한다.<br>
+
+## 데이터 가져오기 (Fetching Data)
+### 서버 컴포넌트에서 데이터를 가져오는 방법: <br>
+### fetch API 사용<br>
+### ORM 또는 데이터베이스 직접 접근<br>
+#### fetch 사용 시 컴포넌트를 비동기 함수(async) 로 선언해야 한다.<br>
 # 2025-10-22 강의
+## Next.js 핵심 개념 요약: SC/CC Interleaving & Context
+### Server/Client Component Interleaving
+Interleaving은 **Server Component (SC)**와 **Client Component (CC)**를 혼합하여 성능과 상호작용성을 모두 확보하는 핵심 전략입니다. Server Component (SC): 서버에서 데이터 패칭 및 초기 렌더링을 담당하여 정적 HTML을 생성합니다. 역할: 초기 로딩 속도 최적화.
+
+Client Component (CC): 브라우저에서 **상호작용성(useState, onClick 등)**을 담당하며, 하이드레이션이 일어나는 부분입니다. 작동 방식: SC가 만든 정적 HTML을 CC의 children 자리에 삽입하고, CC만 클라이언트에서 JavaScript로 연결됩니다.
+
+## 2. Context Provider 사용 전략
+### Context는 상태를 관리하므로 반드시 Client Component여야 합니다 ("use client" 필수).
+
+전략: Client Component인 Context Provider를 **Server Component인 Root Layout (layout.tsx)**이 감싸도록 구성합니다. 결과: Provider가 앱의 최상단에서 렌더링되므로, 하위에 있는 모든 Client Component와 Server Component가 전역 Context를 공유할 수 있게 됩니다.
+
+## 3. CSS 적용: 속성 선택자
+### Context의 상태(State)에 따라 전역적인 테마를 변경할 때, CSS **속성 선택자 (Attribute Selector)**를 사용합니다.<br> 원리: Context Provider에서 태그에 data-theme="light"나 data-theme="dark"와 같은 속성을 설정합니다. <br> 활용: CSS에서 html[data-theme='dark']와 같이 속성값을 직접 선택하여 스타일을 지정합니다.<br> 이는 클래스 충돌 없이 전역 테마 관리를 용이하게 합니다.
 
 # 2025-10-17 강의
 
